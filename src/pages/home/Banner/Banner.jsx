@@ -20,12 +20,16 @@ const Banner = () => {
           </p>
           <div className="flex items-center justify-center mt-6">
             <div className=" w-full md:w-2/4 flex search-field">
+              {/* //TODO: search value to get react hook form  */}
               <input
                 type="text"
                 className="w-full py-2  px-4 outline-none "
                 placeholder="Search your favorite book"
               />
-              <Link className=" px-4 py-2 text-white bg-pink-500 text-lg font-semibold">
+              <Link
+                to="/search"
+                className=" px-4 py-2 text-white bg-[#F86263] text-lg font-semibold"
+              >
                 Search
               </Link>
             </div>

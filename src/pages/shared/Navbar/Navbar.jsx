@@ -2,6 +2,7 @@ import { useState } from "react";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
+import logo from "../../../assets/logo.avif";
 
 const Navbar = () => {
   let links = [
@@ -19,7 +20,8 @@ const Navbar = () => {
       <div className=" container mx-auto md:flex md:justify-between bg-white px-6">
         <div>
           <Link className="flex items-center gap-3" to="/">
-            <h3 className="text-xl font-semibold">Information</h3>
+            {/* <h3 className="text-xl font-semibold">Information</h3> */}
+            <img src={logo} alt="" />
           </Link>
         </div>
         <div
@@ -40,8 +42,8 @@ const Navbar = () => {
                   isPending
                     ? "pending"
                     : isActive
-                    ? "text-[#4A60A1] capitalize hover:text-gray-400"
-                    : "text-gray-800 hover:text-gray-400 capitalize duration-500 "
+                    ? "text-[#F86263] capitalize hover:text-[#F86263]"
+                    : "text-gray-800 hover:text-[#F86263] capitalize duration-500 "
                 }
                 to={link.link}
               >
