@@ -1,0 +1,4 @@
+.signUp-image {
+  background-image: linear-gradient(#f86263, rgba(0, 0, 0, 0.3)),
+    url(../../assets/signup.jpg);
+}

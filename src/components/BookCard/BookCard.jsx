@@ -3,7 +3,7 @@ import "./BookCard.css";
 const BookCard = ({ book }) => {
   const { images, title, author } = book;
   return (
-    <div className="w-full max-w-xs overflow-hidden bg-white rounded-lg shadow-sm border p-2 hover:cursor-pointer hover:shadow-md book-card">
+    <div className="w-full max-w-xs overflow-hidden bg-white rounded-lg shadow-sm border p-2 py-4 hover:cursor-pointer hover:shadow-md book-card">
       <img
         className="object-cover w-full h-56 transition-transform ease-in"
         src={images}

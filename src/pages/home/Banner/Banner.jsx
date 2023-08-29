@@ -3,8 +3,8 @@ import "./Banner.css";
 
 const Banner = () => {
   return (
-    <div className="banner-image flex items-center px-20 justify-center">
-      <div className="container mx-auto py-10 lg:px-20 px-5 flex items-center justify-center">
+    <div className="banner-image flex items-center px-20 justify-center ">
+      <div className="container mx-auto py-10 lg:py-20 lg:px-20 px-5 flex items-center justify-center">
         <div className="text-center w-full">
           <h3 className="uppercase text-white text-2xl lg:text-5xl font-extrabold text-center mb-4 lg:mb-8">
             Book Reading
