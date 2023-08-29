@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.avif";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
@@ -12,6 +12,7 @@ const SignUp = () => {
     reset,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -25,6 +26,7 @@ const SignUp = () => {
           reset();
           toast.success("user create successfully");
           setConfirmPasswordError("");
+          navigate("/");
         })
         .catch((error) => {
           setErrorMessage(error.message);

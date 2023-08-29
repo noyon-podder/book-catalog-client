@@ -4,6 +4,7 @@ import Home from "../pages/home/Home/Home";
 import SearchValue from "../pages/shared/SarchValue/SearchValue";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
+import AllBooks from "../pages/AllBooks/AllBooks";
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/all_books",
+        element: <AllBooks />,
       },
       {
         path: "/search",

@@ -1,19 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../assets/logo.avif";
+import { AuthContext } from "../../../context/AuthProvider";
+import { toast } from "react-hot-toast";
 
 const Navbar = () => {
-  let links = [
-    { name: "Home", link: "/" },
-    { name: "About us", link: "/" },
-    { name: "Properties", link: "/property" },
-    { name: "Contact Us", link: "/" },
-    { name: "Blog", link: "/" },
-    { name: "Login", link: "/sign_in" },
-  ];
+  const { user, logOut } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        navigate("/sign_in");
+        toast.success("Logout successfully");
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <header className="bg-base-100 py-4 border-b">
@@ -35,22 +40,70 @@ const Navbar = () => {
             open ? "top-16 opacity-100 bg-white" : "top-[-490px]"
           } md:opacity-100 opacity-0 `}
         >
-          {links.map((link) => (
-            <li className="md:ml-8 text-base md:my-0 my-7" key={link.name}>
-              <NavLink
-                className={({ isActive, isPending }) =>
-                  isPending
-                    ? "pending"
-                    : isActive
-                    ? "text-[#F86263] capitalize hover:text-[#F86263]"
-                    : "text-gray-800 hover:text-[#F86263] capitalize duration-500 "
-                }
-                to={link.link}
-              >
-                {link.name}
-              </NavLink>
-            </li>
-          ))}
+          <li className="md:ml-8 text-base md:my-0 my-7">
+            <NavLink
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? "pending"
+                  : isActive
+                  ? "text-[#F86263] capitalize hover:text-[#F86263]"
+                  : "text-gray-800 hover:text-[#F86263] capitalize duration-500 "
+              }
+              to="/"
+            >
+              Home
+            </NavLink>
+          </li>
+          <li className="md:ml-8 text-base md:my-0 my-7">
+            <NavLink
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? "pending"
+                  : isActive
+                  ? "text-[#F86263] capitalize hover:text-[#F86263]"
+                  : "text-gray-800 hover:text-[#F86263] capitalize duration-500 "
+              }
+              to="/all_books"
+            >
+              All Books
+            </NavLink>
+          </li>
+
+          {!user?.email ? (
+            <>
+              <li className="md:ml-8 text-base md:my-0 my-7">
+                <NavLink
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? "text-[#F86263] capitalize hover:text-[#F86263]"
+                      : "text-gray-800 hover:text-[#F86263] capitalize duration-500 "
+                  }
+                  to="/sign_in"
+                >
+                  Sign In
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="md:ml-8 text-base md:my-0 my-7">
+                <NavLink
+                  onClick={handleLogOut}
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? " capitalize hover:text-[#F86263]"
+                      : "text-gray-800 hover:text-[#F86263] capitalize duration-500 "
+                  }
+                >
+                  Sign Out
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </header>

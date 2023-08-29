@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthProvider";
 import { toast } from "react-hot-toast";
 
 const SignIn = () => {
-  const { userLogin } = useContext(AuthContext);
+  const { userLogin, createUserWithGoogle } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const {
@@ -31,6 +31,20 @@ const SignIn = () => {
       });
     setErrorMessage("");
   };
+
+  //handle google login
+  const handleGoogleLogin = () => {
+    createUserWithGoogle()
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast.success(`${user.displayName} login successfully`);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
   return (
     <div className="py-10 bg-gray-100 ">
       <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl">
@@ -41,8 +55,8 @@ const SignIn = () => {
             <img className="w-auto h-7 sm:h-8" src={logo} alt="" />
           </div>
 
-          <a
-            href="#"
+          <Link
+            onClick={handleGoogleLogin}
             className="flex items-center justify-center mt-8 text-gray-600 transition-colors duration-300 transform border rounded-lg   hover:bg-gray-50 "
           >
             <div className="px-4 py-2">
@@ -69,7 +83,7 @@ const SignIn = () => {
             <span className="w-5/6 px-4 py-3 font-bold text-center">
               Sign in with Google
             </span>
-          </a>
+          </Link>
 
           <div className="flex items-center justify-between mt-4">
             <span className="w-1/5 border-b lg:w-1/4"></span>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import BookCard from "../../../components/BookCard/BookCard";
+import { Link } from "react-router-dom";
 
 const LatestBooks = () => {
   const [data, setData] = useState([]);
@@ -25,6 +26,14 @@ const LatestBooks = () => {
             <BookCard key={index} book={book} />
           ))}
         </div>
+      </div>
+      <div className="w-full flex items-center justify-center mt-5 lg:my-10">
+        <Link
+          to="/all_books"
+          className="px-12 rounded-lg py-4 bg-[#F86263] hover:bg-[#be4a4a] text-white text-lg font-semibold "
+        >
+          See All Books
+        </Link>
       </div>
     </div>
   );
