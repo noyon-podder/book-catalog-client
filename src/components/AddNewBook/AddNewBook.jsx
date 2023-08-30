@@ -38,6 +38,7 @@ const AddItems = () => {
         console.log("image", imageResponse);
         const bookData = {
           title: data.title,
+          details: data.details,
           author: data.author,
           genre: data.genre,
           images: imageResponse.data.display_url,
@@ -61,8 +62,8 @@ const AddItems = () => {
 
   console.log(errors);
   return (
-    <div className="lg:px-10 ">
-      <div className="bg-base-100 px-8 py-6">
+    <div className="lg:py-8 p-3 bg-gray-100">
+      <div className="bg-white shadow-md lg:w-3/4 mx-auto px-8 py-6">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full">
             <label
