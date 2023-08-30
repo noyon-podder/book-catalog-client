@@ -90,6 +90,20 @@ const Navbar = () => {
             <>
               <li className="md:ml-8 text-base md:my-0 my-7">
                 <NavLink
+                  to="/add-new"
+                  className={({ isActive, isPending }) =>
+                    isPending
+                      ? "pending"
+                      : isActive
+                      ? " capitalize hover:text-[#F86263]"
+                      : "text-gray-800 hover:text-[#F86263] capitalize duration-500 "
+                  }
+                >
+                  Add New Book
+                </NavLink>
+              </li>
+              <li className="md:ml-8 text-base md:my-0 my-7">
+                <NavLink
                   onClick={handleLogOut}
                   className={({ isActive, isPending }) =>
                     isPending

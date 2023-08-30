@@ -5,6 +5,8 @@ import SearchValue from "../pages/shared/SarchValue/SearchValue";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
 import AllBooks from "../pages/AllBooks/AllBooks";
+import BookDetails from "../components/BookDetails/BookDetails";
+import AddNewBook from "../components/AddNewBook/AddNewBook";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +20,14 @@ export const router = createBrowserRouter([
       {
         path: "/all_books",
         element: <AllBooks />,
+      },
+      {
+        path: "/books/:id",
+        element: <BookDetails />,
+      },
+      {
+        path: "/add-new",
+        element: <AddNewBook />,
       },
       {
         path: "/search",
