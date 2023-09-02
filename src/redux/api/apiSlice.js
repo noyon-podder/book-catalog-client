@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const booksApi = createApi({
   reducerPath: "booksApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
+  tagTypes: ["comments"],
   endpoints: (builder) => ({
     getAllBooks: builder.query({
       query: () => "/books",
@@ -33,6 +34,19 @@ export const booksApi = createApi({
         method: "DELETE",
       }),
     }),
+
+    commentAdd: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `/comment/${id}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    getComment: builder.query({
+      query: (id) => `/comment/${id}`,
+      providesTags: ["comments"],
+    }),
   }),
 });
 
@@ -42,4 +56,6 @@ export const {
   useCreateBookMutation,
   useUpdateBookMutation,
   useDeleteBookMutation,
+  useCommentAddMutation,
+  useGetCommentQuery,
 } = booksApi;

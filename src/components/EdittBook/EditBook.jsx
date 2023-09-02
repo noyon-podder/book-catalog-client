@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import loading from "../../assets/loading.gif";
 import { toast } from "react-hot-toast";
 import {
   useGetSingleBookQuery,
@@ -29,6 +29,10 @@ const EditBook = () => {
     formState: { errors },
     reset,
   } = useForm();
+
+  if (isLoading) {
+    return <img src={loading} alt="" />;
+  }
 
   const onSubmit = async (data) => {
     const formData = new FormData();

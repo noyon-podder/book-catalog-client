@@ -4,11 +4,12 @@ import {
   useGetSingleBookQuery,
 } from "../../redux/api/apiSlice";
 import loading from "../../assets/loading.gif";
-import SubBanner from "../SubBanner/SubBanner";
+import SubBanner from "../../components/SubBanner/SubBanner";
 import { AuthContext } from "../../context/AuthProvider";
 import { useContext } from "react";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
+import Comment from "./Comment/Comment";
 
 const BookDetails = () => {
   const navigate = useNavigate();
@@ -48,24 +49,26 @@ const BookDetails = () => {
     });
   };
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 px-3">
       <SubBanner text="Book Details" />
 
       <div className="container mx-auto py-10 ">
         <div className="flex items-center justify-center">
-          <div className="flex w-2/4 overflow-hidden bg-white rounded-lg shadow-lg ">
+          <div className="flex lg:w-2/4 overflow-hidden bg-white rounded-lg shadow-lg ">
             <div
               className="w-1/3 bg-cover"
               style={{
-                backgroundImage: `url(${data.images})`,
+                backgroundImage: `url(${data?.images})`,
               }}
             ></div>
 
             <div className="w-2/3 p-4 md:p-4 md:py-5">
-              <h1 className="text-xl font-bold text-gray-800 ">{data.title}</h1>
+              <h1 className="text-xl font-bold text-gray-800 ">
+                {data?.title}
+              </h1>
 
               {data.details ? (
-                <p className="mt-2 text-sm text-gray-500 ">{data.details}</p>
+                <p className="mt-2 text-sm text-gray-500 ">{data?.details}</p>
               ) : (
                 <p className="mt-2 text-sm text-gray-500 ">
                   Quickly unleash frictionless users via highly efficient
@@ -105,6 +108,7 @@ const BookDetails = () => {
             </div>
           </div>
         </div>
+        <Comment id={data._id} />
       </div>
     </div>
   );

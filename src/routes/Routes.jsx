@@ -5,9 +5,10 @@ import SearchValue from "../pages/shared/SarchValue/SearchValue";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
 import AllBooks from "../pages/AllBooks/AllBooks";
-import BookDetails from "../components/BookDetails/BookDetails";
+
 import AddNewBook from "../components/AddNewBook/AddNewBook";
 import EditBook from "../components/EdittBook/EditBook";
+import BookDetails from "../pages/BookDetails/BookDetails";
 
 export const router = createBrowserRouter([
   {
