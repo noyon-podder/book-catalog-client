@@ -1,23 +1,28 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../context/AuthProvider";
-import { useCreateBookMutation } from "../../redux/api/apiSlice";
+
 import { toast } from "react-hot-toast";
+import {
+  useGetSingleBookQuery,
+  useUpdateBookMutation,
+} from "../../redux/api/apiSlice";
+import { useParams } from "react-router-dom";
 
-const IMAGE_HOSTING_KEY = `${import.meta.env.VITE_IMAGE_TOKEN}`;
+// const IMAGE_HOSTING_KEY = `${import.meta.env.VITE_IMAGE_TOKEN}`;
 
-const AddItems = () => {
+const EditBook = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const formatDateToMonthName = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  const { user } = useContext(AuthContext);
+  const { id } = useParams();
 
-  const [createBook, { isError }] = useCreateBookMutation();
+  const { data: book } = useGetSingleBookQuery(id);
+  const [updateBook, { isLoading }] = useUpdateBookMutation();
 
-  const image_url = `https://api.imgbb.com/1/upload?key=${IMAGE_HOSTING_KEY}`;
+  // const image_url = `https://api.imgbb.com/1/upload?key=${IMAGE_HOSTING_KEY}`;
   const {
     register,
     handleSubmit,
@@ -29,34 +34,21 @@ const AddItems = () => {
     const formData = new FormData();
     formData.append("image", data.image[0]);
 
-    fetch(image_url, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then(async (imageResponse) => {
-        console.log("image", imageResponse);
-        const bookData = {
-          title: data.title,
-          details: data.details,
-          author: data.author,
-          genre: data.genre,
-          images: imageResponse.data.display_url,
-          publicationDate: formatDateToMonthName(selectedDate),
-          authorEmail: user.email,
-          createdAt: new Date(),
-        };
-        const response = await createBook(bookData);
+    const updateBookData = {
+      title: data.title,
+      details: data.details,
+      author: data.author,
+      genre: data.genre,
+      publicationDate: formatDateToMonthName(selectedDate),
+    };
+    const response = await updateBook({ id, ...updateBookData });
 
-        if (!isError) {
-          toast.success("Book is added");
-          reset();
-        } else {
-          toast.error("Something went wrong", response.error);
-        }
-
-        console.log(response);
-      });
+    if (response.error) {
+      toast.error("Something went wrong", response.error);
+      reset();
+    } else {
+      toast.success("Book Data update Successfully");
+    }
 
     console.log(data, "publicaton Data", formatDateToMonthName(selectedDate));
   };
@@ -76,6 +68,7 @@ const AddItems = () => {
             <input
               type="text"
               {...register("title", { required: true, maxLength: 100 })}
+              defaultValue={book?.title}
               placeholder="Recipe name"
               className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-4  focus:border-orange-400  focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
@@ -96,6 +89,7 @@ const AddItems = () => {
               <input
                 type="text"
                 {...register("author", { required: true, maxLength: 100 })}
+                defaultValue={book?.author}
                 placeholder="Author Name"
                 className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-4  focus:border-orange-400  focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
@@ -116,6 +110,7 @@ const AddItems = () => {
               <input
                 type="text"
                 {...register("genre", { required: true, maxLength: 100 })}
+                defaultValue={book?.genre}
                 placeholder="Genre"
                 className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-4  focus:border-orange-400  focus:ring-orange-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
@@ -138,29 +133,31 @@ const AddItems = () => {
 
               <input
                 type="file"
-                {...register("image", { required: true, maxLength: 100 })}
+                {...register("image", {})}
                 className="block w-full px-3 py-2 mt-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg file:bg-gray-200 file:text-gray-700 file:text-sm file:px-4 file:py-1 file:border-none file:rounded-full   placeholder-gray-400/70  focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40   "
               />
             </div>
+            {errors.image && (
+              <span className="text-red-600 text-sm mt-2">
+                Book details is required
+              </span>
+            )}
 
             <div>
               <label
                 htmlFor="name"
                 className="block text-xl font-semibold text-gray-900 mb-4"
               >
-                Selected Date
-                <span className="text-red-600">
+                Already published:
+                <span className="text-red-600 text-sm">
                   {" "}
-                  {formatDateToMonthName(selectedDate)}
+                  {book?.publicationDate}
                 </span>
               </label>
 
               <input
                 type="date"
-                {...register("publicationDate", {
-                  required: true,
-                  maxLength: 100,
-                })}
+                {...register("publicationDate", {})}
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
                 placeholder="John Doe"
@@ -178,10 +175,11 @@ const AddItems = () => {
             </label>
             <textarea
               placeholder="Recipe Details"
-              {...register("details", { required: true })}
+              {...register("details", {})}
+              defaultValue={book?.details}
               className="block  mt-2 w-full placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-4 h-32 py-2.5 text-gray-700 focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-300 focus:ring-opacity-40 "
             ></textarea>
-            {errors.recipe && (
+            {errors.details && (
               <span className="text-red-600 text-sm mt-2">
                 Book details is required
               </span>
@@ -199,4 +197,4 @@ const AddItems = () => {
   );
 };
 
-export default AddItems;
+export default EditBook;
